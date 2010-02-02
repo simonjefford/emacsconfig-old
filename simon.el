@@ -14,3 +14,5 @@
 (add-to-list 'load-path (concat dotfiles-dir "/vendor"))
 (require 'textmate)
 (textmate-mode)
+
+(color-theme-blackboard)
