@@ -16,3 +16,6 @@
 (textmate-mode)
 
 (color-theme-blackboard)
+
+(require 'edit-server)
+(edit-server-start)
