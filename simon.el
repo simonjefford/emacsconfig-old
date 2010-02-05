@@ -20,7 +20,7 @@
 (add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-gnome2)
+(color-theme-deep-blue)
 
 (require 'edit-server)
 (edit-server-start)
