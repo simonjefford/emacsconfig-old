@@ -15,6 +15,8 @@
 (require 'textmate)
 (textmate-mode)
 
+(require 'setnu)
+
 (add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
 (require 'color-theme)
 (color-theme-initialize)
