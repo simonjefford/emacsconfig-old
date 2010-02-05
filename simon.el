@@ -15,7 +15,11 @@
 (require 'textmate)
 (textmate-mode)
 
-(color-theme-blackboard)
+(add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-gnome2)
 
 (require 'edit-server)
 (edit-server-start)
+(idle-highlight)
