@@ -29,10 +29,18 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
+(add-to-list 'load-path (concat dotfiles-dir "/vendor/coffee-mode"))
+(require 'coffee-mode)
+
+(defun coffee-custom ()
+  "coffee-mode-hook"
+
+  (define-key coffee-mode-map [(meta r)] 'coffee-compile-buffer))
+
+(add-hook 'coffee-mode-hook '(lambda () (coffee-custom)))
 
 (require 'edit-server)
 (edit-server-start)
-(idle-highlight)
 (require 'ack-emacs)
 
 (defun ack-in-project (pattern)
