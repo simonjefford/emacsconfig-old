@@ -9,6 +9,8 @@
 (global-set-key "\C-x\C-k" 'kill-region)
 (global-set-key "\C-c\C-k" 'kill-region)
 
+(global-set-key "\M-3" "#")
+
 (ansi-color-for-comint-mode-on)
 
 (add-to-list 'load-path (concat dotfiles-dir "/vendor"))
