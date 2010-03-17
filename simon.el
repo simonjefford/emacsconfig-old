@@ -20,7 +20,8 @@
 (add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-deep-blue)
+(color-theme-blackboard)
+
 (add-to-list 'load-path (concat dotfiles-dir "/vendor/org-6.34c/lisp"))
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
