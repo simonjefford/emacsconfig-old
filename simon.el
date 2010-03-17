@@ -41,8 +41,6 @@
 
 (add-hook 'coffee-mode-hook '(lambda () (coffee-custom)))
 
-(require 'edit-server)
-(edit-server-start)
 (require 'ack-emacs)
 
 (defun ack-in-project (pattern)
