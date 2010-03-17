@@ -67,3 +67,4 @@ defined by the ack-command variable."
              (define-key ruby-mode-map "\C-xt"
                'ruby-compilation-this-buffer-and-save)))
 
+(require 'rspec-mode)
