@@ -5,6 +5,7 @@
 (defvar starter-kit-packages (list 'idle-highlight
                                    'ruby-mode
                                    'inf-ruby
+                                   'magit
                                    'css-mode
                                    'gist)
   "Libraries that should be installed by default.")
