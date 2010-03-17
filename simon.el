@@ -56,3 +56,14 @@ defined by the ack-command variable."
 
 (global-set-key "\C-cfa" 'ack-in-project)
 
+(defun ruby-compilation-this-buffer-and-save ()
+  "Save and run the current buffer through Ruby compilation."
+  (interactive)
+  (save-buffer)
+  (ruby-compilation-this-buffer))
+
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (define-key ruby-mode-map "\C-xt"
+               'ruby-compilation-this-buffer-and-save)))
+
