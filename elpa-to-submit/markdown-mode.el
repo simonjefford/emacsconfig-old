@@ -1020,7 +1020,10 @@ This is an exact copy of line-number-at-pos for use in emacs21."
   (make-local-variable 'outline-regexp)
   (setq outline-regexp "#+")
   ;; Cause use of ellipses for invisible text.
-  (add-to-invisibility-spec '(outline . t)))
+  (add-to-invisibility-spec '(outline . t))
+  (if (fboundp 'run-mode-hooks)
+      (run-mode-hooks 'markdown-mode-hook)
+    (run-hooks 'ruby-mode-hook)))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))

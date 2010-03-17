@@ -76,3 +76,30 @@ defined by the ack-command variable."
                'ruby-compilation-this-buffer-and-save)))
 
 (require 'rspec-mode)
+(defun markdown-to-pdf ()
+  "Run markdown on the current buffer and preview the output in another buffer."
+  (interactive)
+    (if (and (boundp 'transient-mark-mode) transient-mark-mode mark-active)
+        (shell-command-on-region (region-beginning) (region-end) "~/bin/mymark2pdf"
+                                 "*markdown-output*" nil)
+      (shell-command-on-region (point-min) (point-max) "~/bin/mymark2pdf"
+                               "*markdown-output*" nil)))
+
+(defun markdown-to-rtf ()
+  "Run markdown on the current buffer and preview the output in another buffer."
+  (interactive)
+    (if (and (boundp 'transient-mark-mode) transient-mark-mode mark-active)
+        (shell-command-on-region (region-beginning) (region-end) "~/bin/mymark2rtf"
+                                 "*markdown-output*" nil)
+      (shell-command-on-region (point-min) (point-max) "~/bin/mymark2rtf"
+                               "*markdown-output*" nil)))
+
+(add-hook 'markdown-mode-hook
+          '(lambda ()
+             (define-key markdown-mode-map "\C-c\C-cf"
+               'markdown-to-pdf)))
+
+(add-hook 'markdown-mode-hook
+          '(lambda ()
+             (define-key markdown-mode-map "\C-c\C-cr"
+               'markdown-to-rtf)))
