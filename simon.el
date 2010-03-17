@@ -64,6 +64,9 @@ defined by the ack-command variable."
 
 (global-set-key "\C-cfa" 'ack-in-project)
 
+(global-set-key (kbd "s-<") 'beginning-of-buffer)
+(global-set-key (kbd "s->") 'end-of-buffer)
+
 (defun ruby-compilation-this-buffer-and-save ()
   "Save and run the current buffer through Ruby compilation."
   (interactive)
