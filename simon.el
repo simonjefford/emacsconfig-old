@@ -112,3 +112,5 @@ defined by the ack-command variable."
           '(lambda ()
              (define-key markdown-mode-map "\C-c\C-cr"
                'markdown-to-rtf)))
+
+(add-hook 'coding-hook 'setnu-mode)
