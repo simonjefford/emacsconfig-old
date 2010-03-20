@@ -14,10 +14,13 @@
 (ansi-color-for-comint-mode-on)
 
 (add-to-list 'load-path (concat dotfiles-dir "/vendor"))
+
 (require 'textmate)
 (textmate-mode)
 
 (require 'setnu)
+
+(require 'tidy)
 
 (add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
 (require 'color-theme)
