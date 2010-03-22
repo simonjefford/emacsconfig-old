@@ -3,7 +3,9 @@
 
 (if (eq system-type 'darwin)
     (set-face-font 'default "-apple-Menlo-medium-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-  (set-face-font 'default "Inconsolata 11"))
+  (if (eq system-type 'windows-nt)
+      (set-face-font 'default "Consolas 10")
+    (set-face-font 'default "Inconsolata 11")))
 
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
