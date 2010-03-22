@@ -3,7 +3,9 @@
 
 (if (eq system-type 'darwin)
     (set-face-font 'default "-apple-Menlo-medium-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-  (set-face-font 'default "Inconsolata 10"))
+  (if (eq system-type 'windows-nt)
+      (set-face-font 'default "Consolas 10")
+    (set-face-font 'default "Inconsolata 10")))
 
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
@@ -14,10 +16,13 @@
 (ansi-color-for-comint-mode-on)
 
 (add-to-list 'load-path (concat dotfiles-dir "/vendor"))
+
 (require 'textmate)
 (textmate-mode)
 
 (require 'setnu)
+
+(require 'tidy)
 
 (add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
 (require 'color-theme)
@@ -78,6 +83,8 @@ defined by the ack-command variable."
              (define-key ruby-mode-map "\C-xt"
                'ruby-compilation-this-buffer-and-save)))
 
+(add-hook 'ruby-mode-hook 'ruby-electric-mode)
+
 (require 'rspec-mode)
 
 ;; Haskell mode
@@ -112,3 +119,21 @@ defined by the ack-command variable."
           '(lambda ()
              (define-key markdown-mode-map "\C-c\C-cr"
                'markdown-to-rtf)))
+
+(add-hook 'coding-hook 'setnu-mode)
+
+(defun bf-pretty-print-xml-region (begin end)
+  "Pretty format XML markup in region. You need to have nxml-mode
+http://www.emacswiki.org/cgi-bin/wiki/NxmlMode installed to do
+this.  The function inserts linebreaks to separate tags that have
+nothing but whitespace between them.  It then indents the markup
+by using nxml's indentation rules."
+  (interactive "r")
+  (save-excursion
+      (nxml-mode)
+      (goto-char begin)
+      (while (search-forward-regexp "\>[ \\t]*\<" nil t) 
+        (backward-char) (insert "\n"))
+      (indent-region begin end))
+    (message "Ah, much better!"))
+(server-start)
