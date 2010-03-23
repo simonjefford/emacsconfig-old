@@ -122,6 +122,12 @@ defined by the ack-command variable."
 
 (add-hook 'coding-hook 'setnu-mode)
 
+(defun pretty-print-xml-buffer ()
+  "Use bf-pretty-print-xml-region to pretty print the xml in the
+buffer"
+  (interactive)
+  (bf-pretty-print-xml-region (point-min) (point-max)))
+
 (defun bf-pretty-print-xml-region (begin end)
   "Pretty format XML markup in region. You need to have nxml-mode
 http://www.emacswiki.org/cgi-bin/wiki/NxmlMode installed to do
@@ -137,3 +143,8 @@ by using nxml's indentation rules."
       (indent-region begin end))
     (message "Ah, much better!"))
 (server-start)
+
+(add-hook 'nxml-mode-hook
+          '(lambda ()
+             (define-key nxml-mode-map "\C-c\C-p"
+               'pretty-print-xml-buffer)))
