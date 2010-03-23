@@ -120,7 +120,6 @@ defined by the ack-command variable."
              (define-key markdown-mode-map "\C-c\C-cr"
                'markdown-to-rtf)))
 
-(add-hook 'coding-hook 'setnu-mode)
 
 (defun pretty-print-xml-buffer ()
   "Use bf-pretty-print-xml-region to pretty print the xml in the
@@ -148,3 +147,6 @@ by using nxml's indentation rules."
           '(lambda ()
              (define-key nxml-mode-map "\C-c\C-p"
                'pretty-print-xml-buffer)))
+
+(require 'csharp-mode)
+
