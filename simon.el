@@ -84,7 +84,7 @@ defined by the ack-command variable."
                'ruby-compilation-this-buffer-and-save)))
 
 (add-hook 'ruby-mode-hook 'ruby-electric-mode)
-
+(add-hook 'ruby-mode-hook 'rinari-minor-mode)
 (require 'rspec-mode)
 
 ;; Haskell mode
