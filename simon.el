@@ -152,3 +152,4 @@ by using nxml's indentation rules."
 
 (require 'csharp-mode)
 
+(setq ns-pop-up-frames nil)
