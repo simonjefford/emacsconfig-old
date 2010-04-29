@@ -20,7 +20,6 @@
 
 (require 'textmate)
 (textmate-mode)
-(require 'peepopen)
 
 (require 'setnu)
 

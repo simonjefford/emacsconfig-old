@@ -3,3 +3,5 @@
 
 (set-frame-position (selected-frame) 800 100)
 (set-frame-size (selected-frame) 150 70)
+
+(require 'peepopen)
