@@ -152,3 +152,7 @@ by using nxml's indentation rules."
 (require 'csharp-mode)
 
 (setq ns-pop-up-frames nil)
+
+(require 'rvm)
+(if (not (eq system-type 'windows-nt))
+    (rvm-use-default))
