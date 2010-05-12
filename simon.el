@@ -156,3 +156,6 @@ by using nxml's indentation rules."
 (require 'rvm)
 (if (not (eq system-type 'windows-nt))
     (rvm-use-default))
+
+(require 'haml-mode)
+(require 'sass-mode)
