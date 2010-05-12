@@ -159,3 +159,4 @@ by using nxml's indentation rules."
 
 (require 'haml-mode)
 (require 'sass-mode)
+(require 'multi-eshell)
