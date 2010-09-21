@@ -1,4 +1,4 @@
-;;; rspec-mode.el --- Enhance ruby-mode for RSpec
+;; rspec-mode.el --- Enhance ruby-mode for RSpec
 
 ;; Copyright (C) 2008 Peter Williams <http://pezra.barelyenough.org>
 ;; Authors: Peter Williams, Tim Harper
@@ -50,7 +50,14 @@
 ;;
 ;;  * reenable the disabled example at the point
 ;;
-;;  * run "spec" rake task for project (bound to `\C-c ,a`)
+;;  * run spec for entire project (bound to `\C-c ,a`)
+;;
+;; You can choose whether to run specs using 'rake spec' or the 'spec'
+;; command. Use the customization interface (customize-group
+;; rspec-mode) or override using (setq rspec-use-rake-flag TVAL).
+;;
+;; Options will be loaded from spec.opts if it exists, otherwise it
+;; will fallback to defaults.
 ;;
 ;; Dependencies
 ;; ------------
@@ -60,6 +67,9 @@
 ;; 
 
 ;;; Change Log:
+;;
+;; 0.3 - Dave Nolan implements respect for spec.opts config and
+;;       custom option to use 'rake spec' task or 'spec' command
 ;; 0.2 - Tim Harper implemented support for imenu to generate a basic
 ;;       tag outline
 ;; 0.1 - Pezra's version in master
@@ -76,6 +86,16 @@
 (define-key rspec-mode-keymap (kbd "C-c ,a") 'rspec-verify-all)
 (define-key rspec-mode-keymap (kbd "C-c ,d") 'rspec-toggle-example-pendingness)
 (define-key rspec-mode-keymap (kbd "C-c ,t") 'rspec-toggle-spec-and-target)
+
+(defgroup rspec-mode nil
+  "Rspec minor mode.")
+
+(defcustom rspec-use-rake-flag t
+  "*Whether rspec runner is run using rake spec task or the spec command"
+  :tag "Rspec runner command"
+  :type '(radio (const :tag "Use 'rake spec' task" t)
+                (const :tag "Use 'spec' command" nil))
+  :group 'rspec-mode)
 
 ;;;###autoload
 (define-minor-mode rspec-mode
@@ -160,18 +180,18 @@
 (defun rspec-verify ()
   "Runs the specified spec, or the spec file for the current buffer."
   (interactive)
-  (rspec-run-single-file (rspec-spec-file-for (buffer-file-name)) "--format specdoc" "--reverse"))
+  (rspec-run-single-file (rspec-spec-file-for (buffer-file-name)) (rspec-core-options ())))
 
 (defun rspec-verify-single ()
   "Runs the specified example at the point of the current buffer."
   (interactive)
-  (rspec-run-single-file (rspec-spec-file-for (buffer-file-name)) "--format specdoc" "--reverse" (concat "--line " (number-to-string (line-number-at-pos)))))
+  (rspec-run-single-file (rspec-spec-file-for (buffer-file-name)) (rspec-core-options ()) (concat "--line " (number-to-string (line-number-at-pos)))))
  
 (defun rspec-verify-all ()
   "Runs the 'spec' rake task for the project of the current file."
   (interactive)
   (let ((default-directory (or (rspec-project-root) default-directory)))
-    (rspec-run "--format=progress")))
+    (rspec-run (rspec-core-options "--format=progress"))))
 
 (defun rspec-toggle-spec-and-target ()
   "Switches to the spec for the current buffer if it is a
@@ -243,6 +263,35 @@
   "Returns true if the specified file is a spec"
   (string-match "\\(_\\|-\\)spec\\.rb$" a-file-name))
 
+(defun rspec-core-options (&optional default-options)
+  "Returns string of options that instructs spec to use spec.opts file if it exists, or sensible defaults otherwise"
+  (if (file-readable-p (rspec-spec-opts-file))
+      (concat "--options " (rspec-spec-opts-file))
+    (if default-options
+        default-options
+        (concat "" ""))))
+
+(defun rspec-spec-opts-file ()
+  "Returns filename of spec opts file (usually spec/spec.opts)"
+  (concat (rspec-spec-directory (rspec-project-root)) "/spec.opts"))
+
+(defun rspec-runner ()
+  "Returns command line to run rspec"
+  (if rspec-use-rake-flag "rake spec" "rspec"))
+
+(defun rspec-runner-options (&optional opts)
+  "Returns string of options for command line"
+  (let ((opts (if (listp opts)
+                  opts
+                (list opts))))
+    (concat (when rspec-use-rake-flag "SPEC_OPTS=\'")
+            (mapconcat 'identity opts " ")
+            (when rspec-use-rake-flag "\'"))))
+
+(defun rspec-runner-target (target)
+  "Returns target file/directory wrapped in SPEC if using rake"
+  (concat (when rspec-use-rake-flag "SPEC=\'") target (when rspec-use-rake-flag "\'")))
+
 ;;;###autoload
 (defun rspec-buffer-is-spec-p ()
   "Returns true if the current buffer is a spec"
@@ -261,16 +310,16 @@
   (let ((redoer-cmd (eval (append '(lambda () (interactive)) (list redoer)))))
     (global-set-key (kbd "C-c ,r") redoer-cmd)))
 
-(defun rspec-run (&rest opts)
+(defun rspec-run (&optional opts)
   "Runs spec with the specified options"
   (rspec-register-verify-redo (cons 'rspec-run opts))
-  (compile (concat "rake spec SPEC_OPTS=\'" (mapconcat (lambda (x) x) opts " ") "\'"))
+  (compile (mapconcat 'identity (list (rspec-runner) (rspec-spec-directory (rspec-project-root)) (rspec-runner-options opts)) " "))
   (end-of-buffer-other-window 0))
 
 (defun rspec-run-single-file (spec-file &rest opts)
-  "Runs spec with the specified options"
+  "Runs spec on a file with the specified options"
   (rspec-register-verify-redo (cons 'rspec-run-single-file (cons spec-file opts)))
-  (compile (concat "rake spec SPEC=\'" spec-file "\' SPEC_OPTS=\'" (mapconcat (lambda (x) x) opts " ") "\'"))
+  (compile (mapconcat 'identity (list (rspec-runner) (rspec-runner-target spec-file) (rspec-runner-options opts)) " "))
   (end-of-buffer-other-window 0))
 
 (defun rspec-project-root (&optional directory)
@@ -280,7 +329,7 @@
           ((file-exists-p (concat directory "Rakefile")) directory)
           (t (rspec-project-root (file-name-directory (directory-file-name directory)))))))
 
-;; Makes sure that rSpec buffers are given the rspec minor mode by default
+;; Makes sure that Rspec buffers are given the rspec minor mode by default
 ;;;###autoload
 (eval-after-load 'ruby-mode
   '(add-hook 'ruby-mode-hook
