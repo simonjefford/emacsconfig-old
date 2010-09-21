@@ -1,4 +1,4 @@
-;; textmate.el --- TextMate minor mode for Emacs
+;;; textmate.el --- TextMate minor mode for Emacs
 
 ;; Copyright (C) 2008, 2009 Chris Wanstrath <chris@ozmm.org>
 
@@ -7,7 +7,7 @@
 ;; Keywords: textmate osx mac
 ;; Created: 22 Nov 2008
 ;; Author: Chris Wanstrath <chris@ozmm.org>
-;; Version: 1
+;; Version: 2
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -25,6 +25,8 @@
 ;;    ⌘[ - Shift Left
 ;;  ⌥⌘] - Align Assignments
 ;;  ⌥⌘[ - Indent Line
+;;    ⌥↑ - Column Up
+;;    ⌥↓ - Column Down
 ;;  ⌘RET - Insert Newline at Line's End
 ;;  ⌥⌘T - Reset File Cache (for Go to File)
 
@@ -64,12 +66,11 @@
 
 ;;; Minor mode
 
-(defvar *textmate-gf-exclude*
-  "/\\.|vendor|fixtures|tmp|log|build|\\.xcodeproj|\\.nib|\\.framework|\\.app|\\.pbproj|\\.pbxproj|\\.xcode|\\.xcodeproj|\\.bundle|\\.pyc"
+(defvar *textmate-gf-exclude* "/\\/\\.|(\\/|^)(\\.|vendor|fixtures|tmp|log|build)($|\\/)|(\\.xcodeproj|\\.nib|\\.framework|\\.app|\\.pbproj|\\.pbxproj|\\.xcode|\\.xcodeproj|\\.bundle|\\.pyc)$"
   "Regexp of files to exclude from `textmate-goto-file'.")
 
 (defvar *textmate-project-roots*
-  '(".git" ".hg" "Rakefile" "Makefile" "README" "build.xml")
+  '(".git" ".hg" "Rakefile" "Makefile" "README" "build.xml" ".emacs-project")
   "The presence of any file/directory in this list indicates a project root.")
 
 (defvar textmate-use-file-cache t
@@ -78,6 +79,10 @@
 (defvar textmate-completing-library 'ido
   "The library `textmade-goto-symbol' and `textmate-goto-file' should use for
 completing filenames and symbols (`ido' by default)")
+
+(defvar textmate-find-files-command "find \"%s\" -type f"
+  "The command `textmate-project-root' uses to find files. %s will be replaced
+the project root.")
 
 (defvar *textmate-completing-function-alist* '((ido ido-completing-read)
                                                (icicles  icicle-completing-read)
@@ -102,7 +107,11 @@ completing filenames and symbols (`ido' by default)")
 	   (define-key map (kbd "A-/") 'comment-or-uncomment-region-or-line)
 	   (define-key map (kbd "A-L") 'textmate-select-line)
 	   (define-key map (kbd "A-t") 'textmate-goto-file)
-	   (define-key map (kbd "A-T") 'textmate-goto-symbol))
+	   (define-key map (kbd "A-T") 'textmate-goto-symbol)
+     (define-key map (kbd "M-<up>") 'textmate-column-up)
+     (define-key map (kbd "M-<down>") 'textmate-column-down)
+     (define-key map (kbd "M-S-<up>") 'textmate-column-up-with-select)
+     (define-key map (kbd "M-S-<down>") 'textmate-column-down-with-select))
 	  ((and (featurep 'mac-carbon) (eq window-system 'mac) mac-key-mode)
 	   (define-key map [(alt meta return)] 'textmate-next-line)
 	   (define-key map [(alt meta t)] 'textmate-clear-cache)
@@ -113,7 +122,11 @@ completing filenames and symbols (`ido' by default)")
 	   (define-key map [(meta /)] 'comment-or-uncomment-region-or-line)
 	   (define-key map [(alt t)] 'textmate-goto-file)
            (define-key map [(alt shift l)] 'textmate-select-line)
-	   (define-key map [(alt shift t)] 'textmate-goto-symbol))
+	   (define-key map [(alt shift t)] 'textmate-goto-symbol)
+     (define-key map [(alt up)] 'textmate-column-up)
+     (define-key map [(alt down)] 'textmate-column-down)
+     (define-key map [(alt shift up)] 'textmate-column-up-with-select)
+     (define-key map [(alt shift down)] 'textmate-column-down-with-select))
 	  ((featurep 'ns)  ;; Emacs.app
 	   (define-key map [(super meta return)] 'textmate-next-line)
 	   (define-key map [(super meta t)] 'textmate-clear-cache)
@@ -124,7 +137,11 @@ completing filenames and symbols (`ido' by default)")
 	   (define-key map [(super /)] 'comment-or-uncomment-region-or-line)
 	   (define-key map [(super t)] 'textmate-goto-file)
 	   (define-key map [(super shift l)] 'textmate-select-line)
-	   (define-key map [(super shift t)] 'textmate-goto-symbol))
+	   (define-key map [(super shift t)] 'textmate-goto-symbol)
+     (define-key map [(meta up)] 'textmate-column-up)
+     (define-key map [(meta down)] 'textmate-column-down)
+     (define-key map [(meta shift up)] 'textmate-column-up-with-select)
+     (define-key map [(meta shift down)] 'textmate-column-down-with-select))
 	  (t ;; Any other version
 	   (define-key map [(meta return)] 'textmate-next-line)
 	   (define-key map [(control c)(control t)] 'textmate-clear-cache)
@@ -134,7 +151,11 @@ completing filenames and symbols (`ido' by default)")
 	   (define-key map [(control c)(control k)] 'comment-or-uncomment-region-or-line)
 	   (define-key map [(meta t)] 'textmate-goto-file)
 	   (define-key map [(meta shift l)] 'textmate-select-line)
-	   (define-key map [(meta shift t)] 'textmate-goto-symbol)))
+	   (define-key map [(meta shift t)] 'textmate-goto-symbol)
+     (define-key map [(alt up)] 'textmate-column-up)
+     (define-key map [(alt down)] 'textmate-column-down)
+     (define-key map [(alt shift up)] 'textmate-column-up-with-select)
+     (define-key map [(alt shift down)] 'textmate-column-down-with-select)))
 	  map))
 
 (defvar *textmate-project-root* nil
@@ -142,6 +163,7 @@ completing filenames and symbols (`ido' by default)")
 (defvar *textmate-project-files* '()
   "Used internally to cache the files in a project.")
 
+(defcustom textmate-word-characters "a-zA-Z0-9_" "Word Characters for Column Movement")
 ;;; Bindings
 
 (defun textmate-ido-fix ()
@@ -165,7 +187,8 @@ function."
 (defmacro allow-line-as-region-for-function (orig-function)
 `(defun ,(intern (concat (symbol-name orig-function) "-or-line"))
    ()
-   ,(format "Like `%s', but acts on the current line if mark is not active." orig-function)
+   ,(format "Like `%s', but acts on the current line if mark is not active."
+            orig-function)
    (interactive)
    (if mark-active
        (call-interactively (function ,orig-function))
@@ -238,24 +261,32 @@ Symbols matching the text at point are put first in the completion list."
 
                               ((stringp symbol)
                                (setq name symbol)
-                               (setq position (get-text-property 1 'org-imenu-marker symbol))))
+                               (setq position
+                                     (get-text-property 1 'org-imenu-marker
+                                                        symbol))))
 
                              (unless (or (null position) (null name))
                                (add-to-list 'symbol-names name)
                                (add-to-list 'name-and-pos (cons name position))))))))
       (addsymbols imenu--index-alist))
-    ;; If there are matching symbols at point, put them at the beginning of `symbol-names'.
+    ;; If there are matching symbols at point, put them at the beginning
+    ;; of `symbol-names'.
     (let ((symbol-at-point (thing-at-point 'symbol)))
       (when symbol-at-point
         (let* ((regexp (concat (regexp-quote symbol-at-point) "$"))
-               (matching-symbols (delq nil (mapcar (lambda (symbol)
-                                                     (if (string-match regexp symbol) symbol))
-                                                   symbol-names))))
+               (matching-symbols (delq nil
+                                       (mapcar
+                                        (lambda (symbol)
+                                          (if (string-match regexp symbol)
+                                              symbol))
+                                        symbol-names))))
           (when matching-symbols
             (sort matching-symbols (lambda (a b) (> (length a) (length b))))
-            (mapc (lambda (symbol) (setq symbol-names (cons symbol (delete symbol symbol-names))))
+            (mapc (lambda (symbol)
+                    (setq symbol-names (cons symbol
+                                             (delete symbol symbol-names))))
                   matching-symbols)))))
-    (let* ((selected-symbol (ido-completing-read "Symbol? " symbol-names))
+    (let* ((selected-symbol (ido-completing-read "Symbol? " (reverse symbol-names)))
            (position (cdr (assoc selected-symbol name-and-pos))))
       (goto-char (if (overlayp position) (overlay-start position) position)))))
 
@@ -263,18 +294,17 @@ Symbols matching the text at point are put first in the completion list."
   "Uses your completing read to quickly jump to a file in a project."
   (interactive)
   (let ((root (textmate-project-root)))
-    (when (null root)
-      (error
-       (concat
-        "Can't find a suitable project root ("
-        (string-join " " *textmate-project-roots* )
-        ")")))
-    (find-file
-     (concat
+    (when (null root) 
+      (error "Can't find any .git directory"))
+    (find-file 
+     (concat 
       (expand-file-name root) "/"
-      (textmate-completing-read
+      (textmate-completing-read 
        "Find file: "
-       (textmate-cached-project-files root))))))
+       (mapcar
+	(lambda (e)
+	  (replace-regexp-in-string (textmate-project-root) "" e))
+	(textmate-cached-project-files (textmate-project-root))))))))
 
 (defun textmate-clear-cache ()
   "Clears the project root and project files cache. Use after adding files."
@@ -290,13 +320,22 @@ Symbols matching the text at point are put first in the completion list."
   (split-string
     (shell-command-to-string
      (concat
-      "find "
-      root
-      " -type f  | grep -vE '"
+      (textmate-string-replace "%s" root textmate-find-files-command)
+      "  | grep -vE '"
       *textmate-gf-exclude*
       "' | sed 's:"
       *textmate-project-root*
       "/::'")) "\n" t))
+
+;; http://snipplr.com/view/18683/stringreplace/
+(defun textmate-string-replace (this withthat in)
+  "replace THIS with WITHTHAT' in the string IN"
+  (with-temp-buffer
+    (insert in)
+    (goto-char (point-min))
+    (while (search-forward this nil t)
+      (replace-match withthat nil t))
+    (buffer-substring (point-min) (point-max))))
 
 (defun textmate-cached-project-files (&optional root)
   "Finds and caches all files in a given project."
@@ -353,6 +392,60 @@ A place is considered `tab-width' character columns."
   "Shift the line or region to the ARG places to the left."
   (interactive)
   (textmate-shift-right (* -1 (or arg 1))))
+
+(defun textmate-go-column (direction arg)
+  "Move down a column"
+  (let* ((orig-line (line-number-at-pos))
+         (orig-column (current-column))
+         (prefix-match-regex (if (<= orig-column 1) "^" (format "^.\\{%d\\}" (- orig-column 1))) )
+         (word-regex (concat "[" textmate-word-characters "]"))
+         (non-word-regex (concat "[^\n" textmate-word-characters "]"))
+         (matching-regex (concat prefix-match-regex
+                                 (cond ((looking-back "^") "")
+                                       ((looking-back word-regex) word-regex)
+                                       (t non-word-regex))
+                                 (cond ((looking-at "$") "$")
+                                       ((looking-at word-regex) word-regex)
+                                       (t non-word-regex))))
+         (do-search (if (= direction 1)
+                        (lambda () (search-forward-regexp matching-regex nil t))
+                      (lambda () (search-backward-regexp matching-regex nil t)))))
+    (forward-char direction)
+    (funcall do-search)
+    (backward-char direction)
+    (move-to-column orig-column)
+    (if (= (line-number-at-pos) (+ orig-line direction)) ;; did you only move one line?
+        (progn
+          (while (= (line-number-at-pos) (+ orig-line direction))
+            (setq orig-line (line-number-at-pos))
+            (funcall do-search)
+            (move-to-column orig-column))
+          (goto-line orig-line)
+          (move-to-column orig-column)))))
+
+(defun textmate-column-up (arg)
+  "Move up a column, textmate-style"
+  (interactive "P")
+  (textmate-go-column -1 arg))
+
+(defun textmate-column-down (arg)
+  "Move down a column, textmate-style"
+  (interactive "P")
+  (textmate-go-column 1 arg))
+
+(defun textmate-column-up-with-select (arg)
+  "Move up a column, selecting with shift-select"
+  (interactive "P")
+  (unless mark-active (progn (push-mark (point))
+                             (setq mark-active t transient-mark-mode t)))
+  (let (deactivate-mark) (textmate-column-up arg)))
+
+(defun textmate-column-down-with-select (arg)
+  "Move down a column, selecting with shift-select"
+  (interactive "P")
+  (unless mark-active (progn (push-mark (point))
+                             (setq mark-active t transient-mark-mode t)))
+  (let (deactivate-mark) (textmate-column-down arg)))
 
 ;;;###autoload
 (define-minor-mode textmate-mode "TextMate Emulation Minor Mode"
