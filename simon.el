@@ -163,3 +163,5 @@ by using nxml's indentation rules."
 (if (featurep 'aquamacs)
     (tabbar-mode -1))
 
+(require 'multi-term)
+(setq multi-term-program "/usr/local/bin/zsh")
