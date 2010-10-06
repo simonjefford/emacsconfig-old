@@ -84,6 +84,11 @@ defined by the ack-command variable."
              (define-key ruby-mode-map "\C-xt"
                'ruby-compilation-this-buffer-and-save)))
 
+(add-hook 'c-mode-hook
+          '(lambda ()
+             (define-key c-mode-map "\C-xt"
+               'compile)))
+
 (add-hook 'ruby-mode-hook 'ruby-electric-mode)
 (add-hook 'ruby-mode-hook 'rinari-minor-mode)
 (require 'rspec-mode)
