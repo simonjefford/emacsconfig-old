@@ -92,10 +92,11 @@ defined by the ack-command variable."
 (add-hook 'ruby-mode-hook 'rinari-minor-mode)
 (require 'rspec-mode)
 
-;; Haskell mode
-(load "~/.emacs.d/vendor/haskell-mode-2.7.0/haskell-site-file")
-(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+(defun load-haskell-stuff ()
+  (interactive)
+  (load "~/.emacs.d/vendor/haskell-mode-2.7.0/haskell-site-file")
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation))
 
 (defun markdown-to-pdf ()
   "Run markdown on the current buffer and preview the output in another buffer."
