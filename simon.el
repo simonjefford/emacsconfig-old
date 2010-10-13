@@ -1,17 +1,9 @@
 ;(setq mac-command-modifier 'meta)
 (setq visible-bell nil)
 
-(if (eq system-type 'darwin)
-    (set-face-font 'default "-apple-Menlo-medium-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-  (if (eq system-type 'windows-nt)
-      (set-face-font 'default "Consolas 10")))
-
 (global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
 (global-set-key "\C-c\C-k" 'kill-region)
-
-(if (eq system-type 'darwin)
-    (global-set-key "\M-3" "#"))
 
 (ansi-color-for-comint-mode-on)
 
