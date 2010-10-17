@@ -2,11 +2,16 @@
 ;;
 ;; Part of the Emacs Starter Kit
 
+(require 'cl)
+
 (defvar starter-kit-packages (list 'idle-highlight
                                    'ruby-mode
                                    'inf-ruby
                                    'magit
                                    'css-mode
+                                   'yaml-mode
+                                   'find-file-in-project
+                                   'magit
                                    'gist)
   "Libraries that should be installed by default.")
 
@@ -40,6 +45,9 @@ just have to assume it's online."
 
 ;; Workaround for an ELPA bug that people are reporting but I've been
 ;; unable to reproduce:
-(autoload 'paredit-mode "paredit")
+(autoload 'paredit-mode "paredit" "" t)
+
+;; Workaround for bug in the ELPA package for yaml-mode
+(autoload 'yaml-mode "yaml-mode" "" t)
 
 (provide 'starter-kit-elpa)
