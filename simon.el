@@ -181,3 +181,5 @@ by using nxml's indentation rules."
                              (insert location)
                              (kill-new location))))))
             (kill-buffer))))
+
+(require 'go-mode-load)
