@@ -183,3 +183,5 @@ by using nxml's indentation rules."
             (kill-buffer))))
 
 (require 'go-mode-load)
+
+(load (concat dotfiles-dir "growl.el"))
