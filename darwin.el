@@ -15,3 +15,4 @@
 (defun growl-interactive (message)
   (interactive (list (read-string "Message: ")))
   (growl "emacs" message))
+(server-start)

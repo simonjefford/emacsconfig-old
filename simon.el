@@ -138,7 +138,7 @@ by using nxml's indentation rules."
         (backward-char) (insert "\n"))
       (indent-region begin end))
     (message "Ah, much better!"))
-(server-start)
+
 
 (add-hook 'nxml-mode-hook
           '(lambda ()
