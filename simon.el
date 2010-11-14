@@ -185,3 +185,6 @@ by using nxml's indentation rules."
 (require 'go-mode-load)
 
 (load (concat dotfiles-dir "growl.el"))
+
+(add-hook 'slime-repl-mode-hook 'clojure-mode-font-lock-setup)
+
