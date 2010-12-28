@@ -42,9 +42,9 @@
 
 (defun ack-in-project (pattern)
   "Run ack, with user-specified ARGS, and collect output in a buffer.
-While ack runs asynchronously, you can use the \\[next-error] command to
-find the text that ack hits refer to. The command actually run is
-defined by the ack-command variable."
+While ack runs asynchronously, you can use the \\[next-error]
+command to find the text that ack hits refer to. The command
+actually run is defined by the ack-command variable."
   (interactive (list (read-string "Ack for (in app root): " (thing-at-point 'symbol))))
  
   (let (compile-command
@@ -163,7 +163,8 @@ by using nxml's indentation rules."
 (setq multi-term-program "/usr/local/bin/zsh")
 
 (defun yank-to-gist ()
-  "yank from the top of the kill ring, create a gist from it, and insert the gist url at the point"
+  "yank from the top of the kill ring, create a gist from it, and
+insert the gist url at the point"
   (interactive)
   (save-excursion
     (let ((buffer (current-buffer)))
