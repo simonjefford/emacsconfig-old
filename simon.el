@@ -201,3 +201,5 @@ by using nxml's indentation rules."
                (rename-buffer new-name)
                (set-visited-file-name new-name)
                (set-buffer-modified-p nil))))))
+
+(global-set-key "\C-cb" 'recompile)
