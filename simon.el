@@ -22,7 +22,7 @@
 (color-theme-blackboard)
 ;; (color-theme-gtk-ide)
 
-(add-to-list 'load-path (concat dotfiles-dir "/vendor/org-6.34c/lisp"))
+;; (add-to-list 'load-path (concat dotfiles-dir "/vendor/org-6.34c/lisp"))
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
