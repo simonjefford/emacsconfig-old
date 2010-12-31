@@ -19,7 +19,8 @@
 (add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
 (require 'color-theme)
 (color-theme-initialize)
-(color-theme-gtk-ide)
+(color-theme-blackboard)
+;; (color-theme-gtk-ide)
 
 (add-to-list 'load-path (concat dotfiles-dir "/vendor/org-6.34c/lisp"))
 
