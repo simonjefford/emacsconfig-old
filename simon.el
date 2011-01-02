@@ -90,23 +90,25 @@ actually run is defined by the ack-command variable."
   (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
   (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation))
 
-(defun markdown-to-pdf ()
-  "Run markdown on the current buffer and preview the output in another buffer."
-  (interactive)
+(defun convert-markdown (filter)
+  (let ((cmd (concat filter " " (buffer-name))))
     (if (and (boundp 'transient-mark-mode) transient-mark-mode mark-active)
-        (shell-command-on-region (region-beginning) (region-end) "~/bin/mymark2pdf"
+        (shell-command-on-region (region-beginning) (region-end) cmd
                                  "*markdown-output*" nil)
-      (shell-command-on-region (point-min) (point-max) "~/bin/mymark2pdf"
-                               "*markdown-output*" nil)))
+      (shell-command-on-region (point-min) (point-max) cmd
+                               "*markdown-output*" nil))))
 
 (defun markdown-to-rtf ()
-  "Run markdown on the current buffer and preview the output in another buffer."
+  "Run markdown on the current buffer, create an RTF file and
+preview the results"
   (interactive)
-    (if (and (boundp 'transient-mark-mode) transient-mark-mode mark-active)
-        (shell-command-on-region (region-beginning) (region-end) "~/bin/mymark2rtf"
-                                 "*markdown-output*" nil)
-      (shell-command-on-region (point-min) (point-max) "~/bin/mymark2rtf"
-                               "*markdown-output*" nil)))
+  (convert-markdown "~/bin/mymark2rtf"))
+
+(defun markdown-to-pdf ()
+  "Run markdown on the current buffer, create a PDF file and
+preview the results"
+  (interactive)
+  (convert-markdown "~/bin/mymark2pdf"))
 
 (add-hook 'markdown-mode-hook
           '(lambda ()
