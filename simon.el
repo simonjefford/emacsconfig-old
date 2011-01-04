@@ -226,3 +226,9 @@ insert the gist url at the point"
                ad-do-it)))))
 
 (yas/advise-indent-function 'ruby-indent-line)
+
+(defmacro cmd (name &rest body)
+  "declare an interactive command without all the boilerplate"
+  `(defun ,name ()
+     (interactive)
+     ,@body))
