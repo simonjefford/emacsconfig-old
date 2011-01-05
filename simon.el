@@ -232,3 +232,19 @@ insert the gist url at the point"
   `(defun ,name ()
      (interactive)
      ,@body))
+
+;; Setup ibuffer
+(setq ibuffer-saved-filter-groups
+      '(("home"
+         ("emacs-config" (filename . ".emacs.d"))
+         ("code" (filename . "code"))
+         ("Magit" (name . "\*magit"))
+         ("ERC" (mode . erc-mode))
+         ("Help" (or (name . "\*Help\*")
+		     (name . "\*Apropos\*")
+		     (name . "\*info\*"))))))
+(add-hook 'ibuffer-mode-hook
+          '(lambda ()
+             (ibuffer-switch-to-saved-filter-groups "home")
+             (ibuffer-auto-mode 1)))
+(setq ibuffer-show-empty-filter-groups nil)
