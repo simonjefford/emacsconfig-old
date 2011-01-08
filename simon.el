@@ -248,3 +248,4 @@ insert the gist url at the point"
              (ibuffer-switch-to-saved-filter-groups "home")
              (ibuffer-auto-mode 1)))
 (setq ibuffer-show-empty-filter-groups nil)
+(global-set-key (kbd "s-<return>") 'textmate-next-line)
