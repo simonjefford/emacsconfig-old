@@ -249,7 +249,8 @@ insert the gist url at the point"
 (setq ibuffer-saved-filter-groups
       '(("home"
          ("emacs-config" (filename . ".emacs.d"))
-         ("code" (filename . "code"))
+         ("code" (or (filename . "code")
+                     (name . "*slime-repl clojure*")))
          ("Magit" (name . "\*magit"))
          ("ERC" (mode . erc-mode))
          ("Help" (or (name . "\*Help\*")
