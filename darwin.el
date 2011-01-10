@@ -15,4 +15,8 @@
 (defun growl-interactive (message)
   (interactive (list (read-string "Message: ")))
   (growl "emacs" message))
+
+(setq aquamacs-scratch-file nil
+      initial-major-mode 'emacs-lisp-mode)
+
 (server-start)
