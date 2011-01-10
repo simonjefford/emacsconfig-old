@@ -248,3 +248,7 @@ insert the gist url at the point"
              (ibuffer-auto-mode 1)))
 (setq ibuffer-show-empty-filter-groups nil)
 (global-set-key (kbd "s-<return>") 'textmate-next-line)
+
+(cmd ruby-scratch-buffer
+     (switch-to-buffer (generate-new-buffer "*** ruby-scratch ***"))
+)
