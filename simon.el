@@ -1,4 +1,3 @@
-;(setq mac-command-modifier 'meta)
 (setq visible-bell nil)
 
 (global-set-key "\C-w" 'backward-kill-word)
@@ -225,6 +224,9 @@ insert the gist url at the point"
                ad-do-it)))))
 
 (yas/advise-indent-function 'ruby-indent-line)
+(yas/advise-indent-function 'c-indent-line)
+(yas/advise-indent-function 'css-indent-line)
+(yas/advise-indent-function 'haml-indent-line)
 
 (defmacro cmd (name &rest body)
   "declare an interactive command without all the boilerplate"
