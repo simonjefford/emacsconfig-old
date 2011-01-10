@@ -266,3 +266,5 @@ insert the gist url at the point"
 (cmd ruby-scratch-buffer
      (switch-to-buffer (generate-new-buffer "*** ruby-scratch ***"))
 )
+
+(load "erc-config.el")
