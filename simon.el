@@ -252,6 +252,7 @@ insert the gist url at the point"
          ("code" (or (filename . "code")
                      (name . "*slime-repl clojure*")))
          ("Magit" (name . "\*magit"))
+         ("Org" (mode . org-mode))
          ("ERC" (mode . erc-mode))
          ("Help" (or (name . "\*Help\*")
 		     (name . "\*Apropos\*")
