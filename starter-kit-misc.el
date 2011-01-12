@@ -74,7 +74,7 @@
 (set-default 'indicate-empty-lines t)
 (set-default 'imenu-auto-rescan t)
 
-(add-hook 'text-mode-hook 'turn-on-flyspell)
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 (defvar coding-hook nil
   "Hook that gets run on activation of any programming mode.")
