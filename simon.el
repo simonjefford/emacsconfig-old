@@ -251,7 +251,8 @@ insert the gist url at the point"
       '(("home"
          ("emacs-config" (filename . ".emacs.d"))
          ("code" (or (filename . "code")
-                     (name . "*slime-repl clojure*")))
+                     (name . "*slime-repl clojure*")
+                     (mode . ruby-mode)))
          ("Magit" (name . "\*magit"))
          ("Org" (mode . org-mode))
          ("ERC" (mode . erc-mode))
