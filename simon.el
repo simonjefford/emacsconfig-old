@@ -256,6 +256,7 @@ insert the gist url at the point"
          ("Magit" (name . "\*magit"))
          ("Org" (mode . org-mode))
          ("ERC" (mode . erc-mode))
+         ("Dirs" (mode . dired-mode))
          ("Help" (or (name . "\*Help\*")
 		     (name . "\*Apropos\*")
 		     (name . "\*info\*"))))))
