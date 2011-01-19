@@ -25,3 +25,5 @@ tramp
 history
 erc-credentials.el
 .org-id-locations
+
+/server/server
