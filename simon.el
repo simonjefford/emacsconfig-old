@@ -6,6 +6,7 @@
 (ansi-color-for-comint-mode-on)
 
 (add-to-list 'load-path (concat dotfiles-dir "/vendor"))
+(add-to-list 'load-path (concat dotfiles-dir "/vendor/ecb"))
 
 (require 'textmate)
 (textmate-mode)
@@ -272,3 +273,4 @@ insert the gist url at the point"
 )
 
 (load "erc-config.el")
+(require 'ecb-autoloads)
