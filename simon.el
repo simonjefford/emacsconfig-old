@@ -31,6 +31,7 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 (add-hook 'org-mode-hook #'(lambda () (flyspell-mode -1)))
+(setq org-use-speed-commands t)
 
 (add-to-list 'load-path (concat dotfiles-dir "/vendor/coffee-mode"))
 (require 'coffee-mode)
