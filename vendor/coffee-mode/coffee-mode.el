@@ -101,7 +101,7 @@ path."
   :type 'list
   :group 'coffee)
 
-(defcustom coffee-command-args '("-s" "-p" "--no-wrap")
+(defcustom coffee-command-args '("-s" "-p")
   "The command line arguments to pass to `coffee-command' to get it to
 print the compiled JavaScript."
   :type 'list
@@ -180,7 +180,7 @@ print the compiled JavaScript."
   (call-process-region start end coffee-command nil
                        (get-buffer-create coffee-compiled-buffer-name)
                        nil
-                       "-s" "-p" "--no-wrap")
+                       "-s" "-p")
   (switch-to-buffer-other-frame (get-buffer coffee-compiled-buffer-name))
   (funcall coffee-js-mode)
   (beginning-of-buffer))
