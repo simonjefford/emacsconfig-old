@@ -220,6 +220,8 @@ insert the gist url at the point"
 
 (global-set-key "\C-cb" 'recompile)
 
+(global-set-key (kbd "C-S-s-<return>") 'ns-toggle-fullscreen)
+
 (define-key isearch-mode-map (kbd "C-o")
   (lambda ()
     (interactive)
