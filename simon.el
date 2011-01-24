@@ -77,6 +77,14 @@ actually run is defined by the ack-command variable."
                                (interactive)
                                (shrink-window 1)))
 
+(global-set-key (kbd "C-M->") '(lambda ()
+                                 (interactive)
+                                 (enlarge-window-horizontally 1)))
+
+(global-set-key (kbd "C-M-<") '(lambda ()
+                         (interactive)
+                         (shrink-window-horizontally 1)))
+
 (defun ruby-compilation-this-buffer-and-save ()
   "Save and run the current buffer through Ruby compilation."
   (interactive)
