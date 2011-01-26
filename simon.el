@@ -141,6 +141,18 @@ preview the results"
                'markdown-to-rtf)))
 
 
+(defvar markdown-menu-generic-expression
+  '(("Headings" "^\\(#+ .+\\)" 1))
+  "The imenu regex to parse an outline of the markdown file")
+
+(defun markdown-set-imenu-generic-expression ()
+  (make-local-variable 'imenu-generic-expression)
+  (make-local-variable 'imenu-create-index-function)
+  (setq imenu-create-index-function 'imenu-default-create-index-function)
+  (setq imenu-generic-expression markdown-menu-generic-expression))
+
+(add-hook 'markdown-mode-hook 'markdown-set-imenu-generic-expression)
+
 (defun pretty-print-xml-buffer ()
   "Use bf-pretty-print-xml-region to pretty print the xml in the
 buffer"
