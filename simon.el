@@ -298,3 +298,5 @@ insert the gist url at the point"
 
 (load "erc-config.el")
 (require 'ecb-autoloads)
+
+(setq ecb-tip-of-the-day nil)
