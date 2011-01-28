@@ -18,6 +18,7 @@
   (message "Now showing everything"))
 
 (global-set-key "\C-c\C-e" (lambda () (interactive)
+                             (erc-enable-conference-mode)
                              (erc :server "irc.freenode.net"
                                   :port "6667"
                                   :nick my-nick
