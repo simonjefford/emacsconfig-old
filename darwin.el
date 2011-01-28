@@ -3,4 +3,6 @@
 
 (load "growl.el")
 
+(setq ecb-source-path (quote ("~/code/rails" "~/code/redis" "~/code/MyJob" "~/.emacs.d" "~/code/delivery_manager")))
+
 (server-start)
