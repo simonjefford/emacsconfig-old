@@ -300,3 +300,11 @@ insert the gist url at the point"
 (require 'ecb-autoloads)
 
 (setq ecb-tip-of-the-day nil)
+
+;; smex
+(if (fboundp 'smex-initialize)
+    (progn
+      (smex-initialize)
+      (global-set-key (kbd "C-x C-m") 'smex)
+      (global-set-key (kbd "M-x") 'smex-major-mode-commands))
+  (message "install smex!"))
