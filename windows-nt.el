@@ -3,3 +3,5 @@
 (server-start)
 (global-set-key "\M-3" "#")
 
+(add-to-list 'auto-mode-alist '("\\.cls$" . fundamental-mode))
+
