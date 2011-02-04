@@ -306,3 +306,5 @@ insert the gist url at the point"
       (global-set-key (kbd "C-x C-m") 'smex)
       (global-set-key (kbd "M-x") 'smex-major-mode-commands))
   (message "install smex!"))
+
+(require 'gist)
