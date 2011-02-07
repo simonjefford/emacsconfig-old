@@ -308,3 +308,9 @@ insert the gist url at the point"
   (message "install smex!"))
 
 (require 'gist)
+
+(defun open-repository (batchguid)
+  (interactive "sEnter batchguid: ")
+  (let ((path (concat "//ds-hosp-wn.abs-local.com/tradesimple/_Core/Documents/Repository/" batchguid)))
+    (dired path)))
+
