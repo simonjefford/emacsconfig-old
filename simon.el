@@ -315,8 +315,3 @@ insert the gist url at the point"
 (add-hook 'twitel-status-edit-mode-hook 'longlines-mode)
 
 (require 'gist)
-
-(defun open-repository (batchguid)
-  (interactive "sEnter batchguid: ")
-  (let ((path (concat "//ds-hosp-wn.abs-local.com/tradesimple/_Core/Documents/Repository/" batchguid)))
-    (dired path)))

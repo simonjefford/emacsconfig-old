@@ -5,3 +5,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.cls$" . fundamental-mode))
 
+(defun open-repository (batchguid)
+  (interactive "sEnter batchguid: ")
+  (let ((path (concat "//ds-hosp-wn.abs-local.com/tradesimple/_Core/Documents/Repository/" batchguid)))
+    (dired path)))
