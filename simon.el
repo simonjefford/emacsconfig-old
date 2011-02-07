@@ -306,3 +306,11 @@ insert the gist url at the point"
       (global-set-key (kbd "C-x C-m") 'smex)
       (global-set-key (kbd "M-x") 'smex-major-mode-commands))
   (message "install smex!"))
+
+;; twitel
+(add-to-list 'load-path (concat dotfiles-dir "/vendor/emacs-oauth"))
+(autoload 'twitel-get-friends-timeline "twitel" nil t)
+(autoload 'twitel-status-edit "twitel" nil t)
+(global-set-key "\C-xt" 'twitel-get-friends-timeline)
+(add-hook 'twitel-status-edit-mode-hook 'longlines-mode)
+
