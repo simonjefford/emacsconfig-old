@@ -315,3 +315,4 @@ insert the gist url at the point"
 (add-hook 'twitel-status-edit-mode-hook 'longlines-mode)
 
 (require 'gist)
+(display-time-mode)
