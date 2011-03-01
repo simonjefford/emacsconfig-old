@@ -316,3 +316,6 @@ insert the gist url at the point"
 
 (require 'gist)
 (display-time-mode)
+
+(require 'feature-mode)
+(add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
