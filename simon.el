@@ -320,3 +320,7 @@ insert the gist url at the point"
 (require 'doc-mode)
 (add-to-list 'auto-mode-alist '("\\.doc$" . doc-mode))
 (add-to-list 'auto-mode-alist '("\\.asc$" . doc-mode))
+(display-time-mode)
+
+(require 'feature-mode)
+(add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
