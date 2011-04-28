@@ -20,10 +20,11 @@
 (color-theme-initialize)
 ;; (color-theme-blackboard)
 
-(require 'color-theme-ir-black)
-(color-theme-ir-black)
+;; (require 'color-theme-ir-black)
+;; (color-theme-ir-black)
 ;; (color-theme-gtk-ide)
-
+(require 'color-theme-solarized)
+(color-theme-solarized-dark)
 ;; (add-to-list 'load-path (concat dotfiles-dir "/vendor/org-6.34c/lisp"))
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
