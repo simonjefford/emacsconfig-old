@@ -316,3 +316,7 @@ insert the gist url at the point"
 (add-hook 'twitel-status-edit-mode-hook 'longlines-mode)
 
 (require 'gist)
+
+(require 'doc-mode)
+(add-to-list 'auto-mode-alist '("\\.doc$" . doc-mode))
+(add-to-list 'auto-mode-alist '("\\.asc$" . doc-mode))
