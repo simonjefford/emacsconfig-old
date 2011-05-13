@@ -15,16 +15,15 @@
 
 (require 'tidy)
 
-(add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
-(require 'color-theme)
-(color-theme-initialize)
-;; (color-theme-blackboard)
+(if (display-graphic-p)
+    (progn
+      (add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
+      (require 'color-theme)
+      (color-theme-initialize)
+      (require 'color-theme-ir-black)
+      (require 'color-theme-solarized)
+      (color-theme-solarized-dark)))
 
-;; (require 'color-theme-ir-black)
-;; (color-theme-ir-black)
-;; (color-theme-gtk-ide)
-(require 'color-theme-solarized)
-(color-theme-solarized-dark)
 ;; (add-to-list 'load-path (concat dotfiles-dir "/vendor/org-6.34c/lisp"))
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
