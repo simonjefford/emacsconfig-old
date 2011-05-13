@@ -7,6 +7,7 @@
 
 (add-to-list 'load-path (concat dotfiles-dir "/vendor"))
 (add-to-list 'load-path (concat dotfiles-dir "/vendor/ecb"))
+(add-to-list 'load-path (concat dotfiles-dir "/vendor/showoff-mode"))
 
 (require 'textmate)
 (textmate-mode)
@@ -14,6 +15,8 @@
 (require 'setnu)
 
 (require 'tidy)
+
+(require 'showoff-mode)
 
 (if (display-graphic-p)
     (progn
