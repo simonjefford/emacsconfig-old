@@ -223,7 +223,7 @@ insert the gist url at the point"
 
 (require 'go-mode-load)
 
-(add-hook 'slime-repl-mode-hook 'clojure-mode-font-lock-setup)
+;; (add-hook 'slime-repl-mode-hook 'clojure-mode-font-lock-setup)
 
 (defun rename-file-and-buffer (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME"
