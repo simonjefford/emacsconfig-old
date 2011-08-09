@@ -48,7 +48,5 @@
                                (0 (progn (compose-region (match-beginning 1)
                                                          (match-end 1) "ƒ")
                                          nil))))))))
->>>>>>> technomancy/master
-
 (provide 'starter-kit-js)
 ;;; starter-kit-js.el ends here
