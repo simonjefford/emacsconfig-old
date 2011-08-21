@@ -318,6 +318,9 @@ insert the gist url at the point"
 (global-set-key "\C-xt" 'twitel-get-friends-timeline)
 (add-hook 'twitel-status-edit-mode-hook 'longlines-mode)
 
+(add-to-list 'load-path (concat dotfiles-dir "/vendor/monky"))
+(require 'monky)
+
 (require 'gist)
 
 (require 'doc-mode)
