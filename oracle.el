@@ -5,7 +5,7 @@
 (set-frame-position (selected-frame) 800 100)
 (set-frame-size (selected-frame) 150 70)
 
-(require 'peepopen)
+;;(require 'peepopen)
 (add-to-list 'load-path "/usr/local/Cellar/scala/2.8.0/misc/scala-tool-support/emacs")
 (require 'scala-mode-auto)
 
