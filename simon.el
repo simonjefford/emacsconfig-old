@@ -333,3 +333,8 @@ insert the gist url at the point"
 
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/"))
+
+(add-to-list 'load-path (concat dotfiles-dir "/emms/lisp"))
+(require 'emms-setup)
+(emms-standard)
+(emms-default-players)
