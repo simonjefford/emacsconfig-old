@@ -346,6 +346,9 @@ insert the gist url at the point"
 (require 'emms-setup)
 (emms-standard)
 (emms-default-players)
+
+(add-hook 'before-save-hook (lambda () (delete-trailing-whitespace)))
+
 (cmd isearch-other-window
      (save-selected-window
        (other-window 1)
