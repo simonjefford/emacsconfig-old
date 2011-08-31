@@ -271,6 +271,14 @@ insert the gist url at the point"
      (interactive)
      ,@body))
 
+(defmacro bind (key fn)
+  "shortcut for global-set-key"
+  `(global-set-key (kbd ,key)
+                   ;; handle unquoted function names and lambdas
+                   ,(if (listp fn)
+                        fn
+                      `',fn)))
+
 ;; Setup ibuffer
 (setq ibuffer-saved-filter-groups
       '(("home"
@@ -338,3 +346,9 @@ insert the gist url at the point"
 (require 'emms-setup)
 (emms-standard)
 (emms-default-players)
+(cmd isearch-other-window
+     (save-selected-window
+       (other-window 1)
+       (isearch-forward)))
+
+(bind "C-M-S" isearch-other-window)
