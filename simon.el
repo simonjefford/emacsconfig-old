@@ -339,9 +339,6 @@ insert the gist url at the point"
 (require 'feature-mode)
 (add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
 
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
-
 (add-to-list 'load-path (concat dotfiles-dir "/emms/lisp"))
 (require 'emms-setup)
 (emms-standard)
