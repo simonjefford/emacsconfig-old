@@ -289,6 +289,7 @@ insert the gist url at the point"
          ("Writing" (or (mode . markdown-mode)
                         (mode . showoff-mode)))
          ("Magit" (name . "\*magit"))
+         ("Monky" (name . "\*monky"))
          ("Org" (mode . org-mode))
          ("ERC" (mode . erc-mode))
          ("Dirs" (mode . dired-mode))
