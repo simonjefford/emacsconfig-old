@@ -282,12 +282,17 @@ insert the gist url at the point"
 ;; Setup ibuffer
 (setq ibuffer-saved-filter-groups
       '(("home"
-         ("emacs-config" (filename . ".emacs.d"))
+         ("emacs-lisp" (or (filename . "\.el$")
+                           (name . "\*scratch")))
          ("code" (or (filename . "code")
-                     (name . "*slime-repl clojure*")
-                     (mode . ruby-mode)))
+                     (mode . ruby-mode)
+                     (mode . clojure-mode)
+                     (mode . python-mode)))
+         ("REPL" (or (mode . inferior-lisp-mode)
+                     (mode . slime-repl-mode)))
          ("Writing" (or (mode . markdown-mode)
                         (mode . showoff-mode)))
+         ("Shells" (or (mode . eshell-mode)))
          ("Magit" (name . "\*magit"))
          ("Monky" (name . "\*monky"))
          ("Org" (mode . org-mode))
