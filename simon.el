@@ -54,7 +54,7 @@ While ack runs asynchronously, you can use the \\[next-error]
 command to find the text that ack hits refer to. The command
 actually run is defined by the ack-command variable."
   (interactive (list (read-string "Ack for (in app root): " (thing-at-point 'symbol))))
- 
+
   (let (compile-command
         (compilation-error-regexp-alist grep-regexp-alist)
         (compilation-directory default-directory)
@@ -172,7 +172,7 @@ by using nxml's indentation rules."
   (save-excursion
       (nxml-mode)
       (goto-char begin)
-      (while (search-forward-regexp "\>[ \\t]*\<" nil t) 
+      (while (search-forward-regexp "\>[ \\t]*\<" nil t)
         (backward-char) (insert "\n"))
       (indent-region begin end))
     (message "Ah, much better!"))
@@ -282,13 +282,19 @@ insert the gist url at the point"
 ;; Setup ibuffer
 (setq ibuffer-saved-filter-groups
       '(("home"
-         ("emacs-config" (filename . ".emacs.d"))
+         ("emacs-lisp" (or (filename . "\.el$")
+                           (name . "\*scratch")))
          ("code" (or (filename . "code")
-                     (name . "*slime-repl clojure*")
-                     (mode . ruby-mode)))
+                     (mode . ruby-mode)
+                     (mode . clojure-mode)
+                     (mode . python-mode)))
+         ("REPL" (or (mode . inferior-lisp-mode)
+                     (mode . slime-repl-mode)))
          ("Writing" (or (mode . markdown-mode)
                         (mode . showoff-mode)))
+         ("Shells" (or (mode . eshell-mode)))
          ("Magit" (name . "\*magit"))
+         ("Monky" (name . "\*monky"))
          ("Org" (mode . org-mode))
          ("ERC" (mode . erc-mode))
          ("Dirs" (mode . dired-mode))

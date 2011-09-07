@@ -17,9 +17,12 @@
   (setq erc-minibuffer-ignored nil)
   (message "Now showing everything"))
 
-(global-set-key "\C-c\C-e" (lambda () (interactive)
-                             (erc-enable-conference-mode)
-                             (erc :server "irc.freenode.net"
-                                  :port "6667"
-                                  :nick my-nick
-                                  :password my-password)))
+(defun erc-connect ()
+  (interactive)
+  (erc-enable-conference-mode)
+  (erc :server "irc.freenode.net"
+       :port "6667"
+       :nick my-nick
+       :password my-password))
+
+(global-set-key "\C-c\C-e" 'erc-connect)
