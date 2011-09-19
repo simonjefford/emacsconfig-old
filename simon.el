@@ -358,3 +358,6 @@ insert the gist url at the point"
        (isearch-forward)))
 
 (bind "C-M-S" isearch-other-window)
+
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/dvc/")
+(require 'dvc-autoloads)
