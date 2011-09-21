@@ -9,3 +9,6 @@
   (interactive "sEnter batchguid: ")
   (let ((path (concat "//ds-hosp-wn.abs-local.com/tradesimple/_Core/Documents/Repository/" batchguid)))
     (dired path)))
+
+(global-set-key (kbd "M-<") 'beginning-of-buffer)
+(global-set-key (kbd "M->") 'end-of-buffer)
