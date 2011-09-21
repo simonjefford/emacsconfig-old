@@ -36,12 +36,12 @@
   :group typing-speed
   (if typing-speed-mode
       (progn
-    (add-hook 'post-command-hook 'typing-speed-post-command-hook)
-    (setq typing-speed-event-queue '())
-    (setq typing-speed-update-timer (run-with-timer 0 typing-speed-update-interval 'typing-speed-update)))
-      (progn
-    (remove-hook 'post-command-hook 'typing-speed-post-command-hook)
-    (cancel-timer typing-speed-update-timer))))
+        (add-hook 'post-command-hook 'typing-speed-post-command-hook)
+        (setq typing-speed-event-queue '())
+        (setq typing-speed-update-timer (run-with-timer 0 typing-speed-update-interval 'typing-speed-update)))
+    (progn
+      (remove-hook 'post-command-hook 'typing-speed-post-command-hook)
+      (cancel-timer typing-speed-update-timer))))
 
 (defcustom typing-speed-window 5
   "The window (in seconds) over which typing speed should be evaluated."
@@ -66,34 +66,34 @@ It will always also update after every command."
 command is self-insert-command, log it as a keystroke and update the
 typing speed."
   (if (eq this-command 'self-insert-command)
-    (let ((current-time (float-time)))
-      (push current-time typing-speed-event-queue)
-      (typing-speed-update))))
+      (let ((current-time (float-time)))
+        (push current-time typing-speed-event-queue)
+        (typing-speed-update))))
 
 (defun typing-speed-update ()
   "Calculate and display the typing speed."
   (let ((current-time (float-time)))
     (setq typing-speed-event-queue
-      (typing-speed-remove-old-events
-       (- current-time typing-speed-window)
-       typing-speed-event-queue))
+          (typing-speed-remove-old-events
+           (- current-time typing-speed-window)
+           typing-speed-event-queue))
     (typing-speed-message-update)))
 
 (defun typing-speed-message-update ()
   "Updates the status bar with the current typing speed"
   (let* ((chars-per-second (/ (length typing-speed-event-queue) (float typing-speed-window)))
-     (chars-per-min (* chars-per-second 60))
-     (words-per-min (/ chars-per-min 5)))
+         (chars-per-min (* chars-per-second 60))
+         (words-per-min (/ chars-per-min 5)))
     (setq typing-speed-mode-text (format " [%s WPM]" (floor words-per-min)))
     (force-mode-line-update)))
 
 (defun typing-speed-remove-old-events (threshold queue)
   "Removes events older than than the threshold (in seconds) from the specified queue"
   (if (or (null queue)
-      (> threshold (car queue)))
+          (> threshold (car queue)))
       nil
-      (cons (car queue)
-        (typing-speed-remove-old-events threshold (cdr queue)))))
+    (cons (car queue)
+          (typing-speed-remove-old-events threshold (cdr queue)))))
 
 (defun turn-on-typing-speed ()
   "Turns on typing-speed-mode"
