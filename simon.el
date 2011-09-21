@@ -361,3 +361,5 @@ insert the gist url at the point"
 
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/dvc/")
 (require 'dvc-autoloads)
+
+(setq clojurescript-repl-interface "cljs.repl.rhino")
