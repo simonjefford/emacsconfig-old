@@ -363,3 +363,5 @@ insert the gist url at the point"
 (require 'dvc-autoloads)
 
 (setq clojurescript-repl-interface "cljs.repl.rhino")
+
+(load-file (concat dotfiles-dir "vendor/typing-speed.el"))
