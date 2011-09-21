@@ -358,3 +358,4 @@ insert the gist url at the point"
        (isearch-forward)))
 
 (bind "C-M-S" isearch-other-window)
+(load-file (concat dotfiles-dir "vendor/typing-speed.el"))
