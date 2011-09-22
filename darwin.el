@@ -6,3 +6,5 @@
 (load "growl.el")
 (setq ecb-source-path (quote ("~/code/rails" "~/code/redis" "~/code/MyJob" "~/.emacs.d" "~/code/delivery_manager")))
 
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/dvc/")
+(require 'dvc-autoloads)
