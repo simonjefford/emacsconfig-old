@@ -365,3 +365,15 @@ insert the gist url at the point"
 (setq clojurescript-repl-interface "cljs.repl.rhino")
 
 (load-file (concat dotfiles-dir "vendor/typing-speed.el"))
+
+(add-to-list 'load-path "~/.emacs.d/vendor/autocomplete")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/vendor/autocomplete/ac-dict")
+(ac-config-default)
+
+(require 'ac-slime)
+(add-hook 'slime-mode-hook 'set-up-slime-ac)
+(add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
+(eval-after-load "auto-complete"
+  '(add-to-list 'ac-modes 'slime-repl-mode))
+
