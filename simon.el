@@ -25,6 +25,7 @@
       (color-theme-initialize)
       (require 'color-theme-ir-black)
       (require 'color-theme-solarized)
+      (require 'color-theme-pastels-on-dark)
       (color-theme-gtk-ide)))
 
 ;; (add-to-list 'load-path (concat dotfiles-dir "/vendor/org-6.34c/lisp"))
