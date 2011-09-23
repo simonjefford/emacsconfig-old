@@ -8,3 +8,5 @@
 
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/dvc/")
 (require 'dvc-autoloads)
+
+(setq deft-directory "~/Dropbox/Deft")
