@@ -6,4 +6,11 @@
 (load "growl.el")
 (setq ecb-source-path (quote ("~/code/rails" "~/code/redis" "~/code/MyJob" "~/.emacs.d" "~/code/delivery_manager")))
 
+
 (color-theme-pastels-on-dark)
+
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/dvc/")
+(require 'dvc-autoloads)
+
+(setq deft-directory "~/Dropbox/Deft")
+

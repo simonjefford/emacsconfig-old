@@ -375,3 +375,4 @@ insert the gist url at the point"
 (eval-after-load "auto-complete"
   '(add-to-list 'ac-modes 'slime-repl-mode))
 
+(require 'deft)
