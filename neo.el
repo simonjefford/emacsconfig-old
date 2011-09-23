@@ -2,3 +2,9 @@
 (setq erlang-root-dir "/usr/local/lib/erlang")
 (require 'erlang-start)
 (display-battery-mode)
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/dvc/")
+(require 'dvc-autoloads)
+
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/")
+(load "auctex.el" nil t t)
+(load "preview-latex.el" nil t t)
